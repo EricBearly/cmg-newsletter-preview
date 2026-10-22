@@ -1,0 +1,396 @@
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Newsletter Redesign Documents</title>
+<meta name="description" content="View and download the Cherokee Media Group e-newsletter redesign decks and 2027 rate sheet.">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+  :root{
+    --bg:#eceef1; --panel:#ffffff; --ink:#0f1419; --muted:#55616d;
+    --navy:#194568; --deep:#0d2b45; --orange:#f57c29; --rule:#d4d9de;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#12171c; --panel:#18212a; --ink:#e7ecf1; --muted:#9aa6b2; --rule:#2b343d;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12171c; --panel:#18212a; --ink:#e7ecf1; --muted:#9aa6b2; --rule:#2b343d;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;padding:0 0 40px}
+  .wrap{max-width:860px;margin:0 auto;padding:0 16px}
+
+  header{background:var(--deep);padding:20px 16px 16px}
+  header .in{max-width:860px;margin:0 auto}
+  header h1{font-family:'Oswald',Arial,sans-serif;font-size:clamp(19px,4.2vw,26px);font-weight:700;
+    letter-spacing:2px;text-transform:uppercase;margin:0;color:#fff;line-height:1.1}
+  header p{margin:5px 0 0;font-size:11.5px;letter-spacing:1.4px;text-transform:uppercase;
+    color:#9fb6c9;font-weight:600}
+  .bar{height:4px;background:var(--orange);margin-bottom:22px}
+
+  h2{font-family:'Oswald',Arial,sans-serif;font-size:12.5px;font-weight:600;letter-spacing:2.2px;
+    text-transform:uppercase;color:var(--muted);margin:24px 0 8px;padding-bottom:6px;
+    border-bottom:2px solid var(--ink)}
+
+  .row{display:flex;align-items:center;gap:13px;background:var(--panel);
+    border:1px solid var(--rule);padding:12px 14px;margin-bottom:8px}
+  .row:hover{border-color:var(--orange)}
+  .ic{flex:0 0 auto;width:32px;height:40px;background:var(--navy);color:#fff;border-radius:2px;
+    font-family:'Oswald',Arial,sans-serif;font-size:9px;font-weight:700;
+    display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px}
+  .tx{flex:1 1 auto;min-width:0}
+  .tx b{display:block;font-size:14.5px;font-weight:700}
+  .tx span{display:block;font-size:12.5px;color:var(--muted);line-height:1.5;margin-top:2px}
+  .acts{flex:0 0 auto;display:flex;align-items:center;gap:7px}
+  .sz{font-family:'Oswald',Arial,sans-serif;font-size:10.5px;font-weight:600;letter-spacing:1.1px;
+    color:var(--muted);white-space:nowrap;min-width:58px;text-align:right}
+  button{font:inherit;cursor:pointer;font-family:'Oswald',Arial,sans-serif;font-size:11px;
+    font-weight:600;letter-spacing:1.2px;text-transform:uppercase;padding:7px 12px}
+  .view{background:var(--navy);color:#fff;border:1px solid var(--navy)}
+  .view:hover{background:var(--deep);border-color:var(--deep)}
+  .dl{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+  .dl:hover{border-color:var(--orange);color:var(--orange)}
+  button:disabled{opacity:.5;cursor:default}
+  button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+  @media (max-width:620px){
+    .row{flex-wrap:wrap}
+    .acts{width:100%;justify-content:flex-end;order:3}
+    .sz{min-width:0;margin-right:auto}
+  }
+
+  /* viewer */
+  #viewer{display:none;position:fixed;inset:0;background:#3a4047;z-index:50;flex-direction:column}
+  #viewer.on{display:flex}
+  #vbar{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:10px 14px;
+    background:var(--deep);color:#fff}
+  #vttl{flex:1 1 auto;min-width:0;font-family:'Oswald',Arial,sans-serif;font-size:13px;
+    font-weight:600;letter-spacing:1.4px;text-transform:uppercase;overflow:hidden;
+    text-overflow:ellipsis;white-space:nowrap}
+  #vbar button{border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff}
+  #vbar button:hover:not(:disabled){border-color:var(--orange);color:var(--orange)}
+  #vpages{flex:1 1 auto;overflow:auto;padding:16px 12px 40px;-webkit-overflow-scrolling:touch}
+  .pg{max-width:900px;margin:0 auto 16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.35);
+    position:relative}
+  .pg canvas{display:block;width:100%;height:auto}
+  /* The full-view pages are up to 99in tall, so a vertically centred label sits
+     thousands of pixels below the fold and the viewer just looks blank. Pin it
+     to the top of the sheet instead. */
+  .pg .ph{display:flex;align-items:flex-start;justify-content:center;padding-top:34px;
+    color:#8d98a3;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;
+    font-family:'Oswald',Arial,sans-serif}
+  .livewrap{width:100%;display:flex;justify-content:center;padding-bottom:30px}
+  .livewrap iframe.live{width:680px;max-width:100%;height:calc(100vh - 110px);border:1px solid var(--rule);background:#fff}
+  .livewrap.mobile iframe.live{width:390px;border:9px solid #0f1419;border-radius:26px;height:calc(100vh - 130px)}
+  .imgwrap{display:inline-block;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+  .imgwrap img{display:block}
+  .imgwrap.fit{display:block;max-width:1100px;margin:0 auto}
+  .imgwrap.fit img{width:100%;height:auto}
+  #vmsg{color:#e7ecf1;font-size:13.5px;line-height:1.6;text-align:center;padding:30px 20px}
+
+  .note{font-size:12.5px;line-height:1.6;color:var(--muted);margin:16px 0 0}
+  .note b{color:var(--ink)}
+  #warn{display:none;background:#fdf4ec;border:1px solid #f2dcc8;color:#7a4a18;
+    padding:11px 14px;font-size:12.5px;line-height:1.55;margin-bottom:14px}
+</style>
+
+<header><div class="in">
+  <h1>Newsletter Redesign</h1>
+  <p>Cherokee Media Group &middot; October 2026</p>
+</div></header>
+<div class="bar"></div>
+
+<div class="wrap">
+  <div id="warn"></div>
+  <div id="list"></div>
+  <p class="note"><b>View</b> opens the live email &mdash; desktop width, with a Mobile switch in the toolbar.
+  <b>Download</b> gives you that title&rsquo;s PDF: the whole edition on a desktop page, then the same edition on a phone.
+  The earlier design options are retired and sit in the project folder on OneDrive if you need to look back.</p>
+</div>
+
+<div id="viewer" role="dialog" aria-modal="true" aria-label="Document viewer">
+  <div id="vbar">
+    <span id="vttl"></span>
+    <button type="button" id="vzoom" style="display:none">Actual size</button>
+    <button type="button" id="vdl">Download</button>
+    <button type="button" id="vclose">Close</button>
+  </div>
+  <div id="vpages"></div>
+</div>
+
+<script>
+// [viewUrl, downloadName, title, desc, size, kind, downloadUrl]
+// View opens the live email; Download hands over that title's PDF - the same
+// desktop-then-mobile deck as before, so one row covers both.
+const GROUPS = [
+  ["The newsletters — view live, download the PDF", [
+    ["theme-blue-darkflag.html", "AR-Today-newsletter.pdf", "Auto Remarketing Today",
+     "Blue, dark masthead. Opens at desktop width; switch to mobile in the toolbar.",
+     "3.6 MB", "html", "pdf/AR-Today-newsletter.pdf"],
+    ["ar-today-pm.html", "AR-Today-PM-newsletter.pdf", "Auto Remarketing Today PM",
+     "Afternoon edition: two new stories, then Earlier Today, Editor’s Picks and Latest Podcasts, an ad between each.",
+     "2.7 MB", "html", "pdf/AR-Today-PM-newsletter.pdf"],
+    ["sp-blue-darkflag.html", "SubPrime-newsletter.pdf", "SubPrime News Update",
+     "Blue, dark flag. Monday, Wednesday and Friday.",
+     "2.2 MB", "html", "pdf/SubPrime-newsletter.pdf"],
+    ["ar-canada.html", "AR-Canada-newsletter.pdf", "Auto Remarketing Canada",
+     "Weekly. Two stories, then Editor’s Picks and Latest Podcasts. Five ad units.",
+     "2.4 MB", "html", "pdf/AR-Canada-newsletter.pdf"],
+    ["bhph-report.html", "BHPH-Report-newsletter.pdf", "BHPH Report News",
+     "Tuesdays and Thursdays. Four stories, then Editor’s Picks and Latest Podcasts. Five ad units.",
+     "2.5 MB", "html", "pdf/BHPH-Report-newsletter.pdf"],
+    ["auto-fin-journal.html", "Auto-Fin-Journal-newsletter.pdf", "Auto Fin Journal",
+     "Mondays and Wednesdays. Four stories, then Editor’s Picks and Latest Podcasts. Five ad units.",
+     "2.4 MB", "html", "pdf/Auto-Fin-Journal-newsletter.pdf"],
+  ]],
+  ["Rate sheet", [
+    ["pdf/CMG-Newsletter-Rate-Sheet.pdf", "CMG-Newsletter-Rate-Sheet.pdf",
+     "2027 E-Newsletter Rate Sheet",
+     "All six titles: placement ladder, units per edition, IAB-aligned creative specs and monthly rates.", "0.5 MB"],
+  ]],
+];
+
+if (window.pdfjsLib) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+}
+
+const list = document.getElementById("list");
+const warn = document.getElementById("warn");
+const viewer = document.getElementById("viewer");
+const vpages = document.getElementById("vpages");
+const vttl = document.getElementById("vttl");
+const vdl = document.getElementById("vdl");
+const vzoom = document.getElementById("vzoom");
+
+let downloads = null;
+let current = null;
+let token = 0;                 // bumped on every open, so a slow render from a
+                               // previously-open document cannot paint into this one
+let observer = null;
+let imgBox = null;
+let liveFrame = null;
+const dlButtons = [];
+
+for (const [heading, items] of GROUPS) {
+  const h = document.createElement("h2");
+  h.textContent = heading;
+  list.appendChild(h);
+  for (const [url, filename, title, desc, size, kind, dlurl] of items) {
+    // what View opens and what Download hands over are different files for the
+    // live rows: the email itself on screen, the PDF deck on disk
+    const fileUrl = dlurl || url;
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML =
+      '<span class="ic"></span><span class="tx"><b></b><span></span></span>' +
+      '<span class="acts"><span class="sz"></span>' +
+      '<button type="button" class="view">View</button>' +
+      '<button type="button" class="dl">Download</button></span>';
+    row.querySelector(".ic").textContent = kind === "img" ? "PNG" : "PDF";
+    row.querySelector("b").textContent = title;
+    row.querySelector(".tx span").textContent = desc;
+    row.querySelector(".sz").textContent = size;
+    row.querySelector(".view").addEventListener("click", () => open_(url, filename, title, kind, fileUrl));
+    const d = row.querySelector(".dl");
+    d.addEventListener("click", () => save(d, fileUrl, filename));
+    dlButtons.push(d);
+    list.appendChild(row);
+  }
+}
+
+// Guarded: outside the artifact runtime `claude` is undefined, and an
+// uncaught ReferenceError here kills every listener declared further down -
+// the viewer buttons included. Viewing must survive a missing runtime.
+Promise.resolve()
+  .then(() => (typeof claude === "undefined" ? null : claude.use("downloads")))
+  .catch(() => null)
+  .then(d => {
+  downloads = d;
+});
+
+function msg(text) {
+  vpages.innerHTML = "";
+  const p = document.createElement("div");
+  p.id = "vmsg";
+  p.textContent = text;
+  vpages.appendChild(p);
+}
+
+async function open_(url, filename, title, kind, fileUrl) {
+  const mine = ++token;
+  // current.url is what the toolbar's Download fetches, which is the PDF on a
+  // live row, not the page being displayed
+  current = {url: fileUrl || url, filename, title, kind};
+  vttl.textContent = title;
+  viewer.classList.add("on");
+  document.body.style.overflow = "hidden";
+  if (observer) { observer.disconnect(); observer = null; }
+  msg("Loading…");
+
+  if (kind === "html") {
+    vpages.innerHTML = "";
+    vzoom.style.display = "";
+    vzoom.textContent = "Mobile";
+    const wrap = document.createElement("div");
+    wrap.className = "livewrap";
+    const fr = document.createElement("iframe");
+    fr.className = "live";
+    fr.title = title;
+    fr.src = url;
+    wrap.appendChild(fr);
+    vpages.appendChild(wrap);
+    liveFrame = wrap;
+    imgBox = null;
+    return;
+  }
+  liveFrame = null;
+
+  if (kind === "img") {
+    vpages.innerHTML = "";
+    vzoom.style.display = "";
+    vzoom.textContent = "Actual size";
+    const box = document.createElement("div");
+    box.className = "imgwrap fit";
+    const im = document.createElement("img");
+    im.alt = title;
+    im.src = url;
+    box.appendChild(im);
+    vpages.appendChild(box);
+    imgBox = box;
+    return;
+  }
+  vzoom.style.display = "none";
+  imgBox = null;
+
+  if (!window.pdfjsLib) {
+    msg("The viewer didn’t load. Use Download instead.");
+    return;
+  }
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error("fetch " + r.status);
+    const buf = await r.arrayBuffer();
+    if (mine !== token) return;
+    const pdf = await pdfjsLib.getDocument({data: buf}).promise;
+    if (mine !== token) return;
+
+    vpages.innerHTML = "";
+    // One placeholder per page at the right aspect ratio, so the scrollbar is
+    // honest from the start; each paints only when it scrolls into view. These
+    // decks run to 99in pages, so rendering all of them up front is not an option.
+    const holders = [];
+    for (let n = 1; n <= pdf.numPages; n++) {
+      const page = await pdf.getPage(n);
+      if (mine !== token) return;
+      const vp = page.getViewport({scale: 1});
+      const box = document.createElement("div");
+      box.className = "pg";
+      const ph = document.createElement("div");
+      ph.className = "ph";
+      ph.textContent = "Rendering page " + n + "…";
+      box.appendChild(ph);
+      vpages.appendChild(box);
+      const w = box.clientWidth || 900;
+      const h = Math.round(w * vp.height / vp.width);
+      ph.style.height = h + "px";
+      holders.push({box, ph, page, vp, done: false});
+    }
+
+    observer = new IntersectionObserver(entries => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        const it = holders.find(x => x.box === e.target);
+        if (it && !it.done) { it.done = true; paint(it, mine); observer.unobserve(e.target); }
+      }
+    }, {root: vpages, rootMargin: "400px 0px"});
+    holders.forEach(it => observer.observe(it.box));
+  } catch (e) {
+    if (mine === token) msg("Couldn’t open this one in the browser. Use Download instead.");
+  }
+}
+
+async function paint(it, mine) {
+  try {
+    const w = it.box.clientWidth || 900;
+    const scale = w / it.vp.width;
+    // Cap the backing store. A 99in page at devicePixelRatio 2 is tens of
+    // megapixels and took about fifteen seconds to paint; these are overview
+    // pages, so tall ones render at 1x and come up several times faster.
+    const tall = scale * it.vp.height > 4000;
+    const dpr = tall ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+    const vp = it.page.getViewport({scale: scale * dpr});
+    if (vp.width * vp.height > 200e6) return;
+    const c = document.createElement("canvas");
+    c.width = Math.floor(vp.width);
+    c.height = Math.floor(vp.height);
+    await it.page.render({canvasContext: c.getContext("2d", {alpha: false}), viewport: vp}).promise;
+    if (mine !== token) return;
+    it.ph.remove();
+    it.box.appendChild(c);
+  } catch (e) {
+    it.ph.textContent = "Page couldn’t be drawn";
+  }
+}
+
+function close_() {
+  token++;
+  imgBox = null;
+  liveFrame = null;
+  vzoom.style.display = "none";
+  if (observer) { observer.disconnect(); observer = null; }
+  viewer.classList.remove("on");
+  vpages.innerHTML = "";
+  document.body.style.overflow = "";
+  current = null;
+}
+
+vzoom.addEventListener("click", () => {
+  if (liveFrame) {
+    const mob = liveFrame.classList.toggle("mobile");
+    vzoom.textContent = mob ? "Desktop" : "Mobile";
+    return;
+  }
+  if (!imgBox) return;
+  const fit = imgBox.classList.toggle("fit");
+  vzoom.textContent = fit ? "Actual size" : "Fit width";
+  if (!fit) vpages.scrollLeft = (vpages.scrollWidth - vpages.clientWidth) / 2;
+});
+
+document.getElementById("vclose").addEventListener("click", close_);
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && viewer.classList.contains("on")) close_();
+});
+vdl.addEventListener("click", () => { if (current) save(vdl, current.url, current.filename); });
+
+async function save(btn, url, filename) {
+  if (btn.disabled) return;
+  // On an ordinary web host there is no artifact runtime, and the file sits on
+  // the same origin, so the browser's own download handles it. Inside the
+  // artifact the sandbox ignores that, which is what the capability is for.
+  if (!downloads) {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    return;
+  }
+  const was = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "…";
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error("fetch " + r.status);
+    await downloads.save({filename, data: await r.blob()});
+    btn.textContent = "Saved";
+  } catch (e) {
+    btn.textContent = (e && e.code === "declined") ? was : "Retry";
+  } finally {
+    btn.disabled = false;
+    setTimeout(() => { btn.textContent = was; }, 2500);
+  }
+}
+</script>
