@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eric's Voter Guide</title>
+<meta name="description" content="Eric's picks for the Nov 3, 2026 ballot in Douglas County, Colorado, with a short note on each.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EDF1F4;
+  --sheet:#FFFFFF;
+  --ink:#101B2D;
+  --muted:#52607A;
+  --rule:#C5CFD8;
+  --gold:#F4B400;
+  --blue:#2F5D8A;
+  --yes:#12684F;
+  --no:#B42318;
+  --open:#9A5B00;
+  --focus:#2F5D8A;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0D1522;
+    --sheet:#141E2F;
+    --ink:#EAF0F7;
+    --muted:#9DABC2;
+    --rule:#2A384F;
+    --gold:#F4B400;
+    --blue:#7FB0E3;
+    --yes:#4FD1A1;
+    --no:#FF8A80;
+    --open:#F2B84B;
+    --focus:#7FB0E3;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0D1522;--sheet:#141E2F;--ink:#EAF0F7;--muted:#9DABC2;--rule:#2A384F;
+  --blue:#7FB0E3;--yes:#4FD1A1;--no:#FF8A80;--open:#F2B84B;--focus:#7FB0E3;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:17px;line-height:1.5;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* Hero */
+.hero{padding:40px 0 28px;border-bottom:6px solid var(--gold);background:var(--sheet)}
+.hero h1{
+  font-family:"Archivo",system-ui,sans-serif;
+  font-stretch:125%;font-variation-settings:"wdth" 125;
+  font-weight:900;letter-spacing:-0.02em;line-height:.95;
+  font-size:clamp(44px,9vw,92px);margin:0 0 14px;
+}
+.hero .sub{font-size:clamp(18px,2.4vw,22px);margin:0;max-width:34ch;color:var(--muted)}
+.hero .days{
+  display:inline-block;margin-top:18px;padding:6px 14px;border:2px solid var(--ink);
+  border-radius:999px;font-weight:700;
+}
+.counters{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.counter{
+  display:flex;align-items:center;gap:12px;
+  min-height:64px;padding:10px 20px 10px 14px;
+  border:2px solid var(--ink);border-radius:999px;background:var(--sheet);color:var(--ink);
+  font:inherit;cursor:pointer;
+}
+.counter .dot{width:30px;height:30px;border-radius:50%;border:3px solid currentColor;display:block;position:relative;flex:none}
+.counter .dot::after{content:"";position:absolute;inset:3px;border-radius:50%;background:currentColor;transform:scale(0);animation:fill .6s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:var(--d,0s)}
+@keyframes fill{to{transform:scale(1)}}
+.counter b{font-family:"Archivo",sans-serif;font-stretch:112%;font-weight:900;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.counter span.lbl{font-weight:700}
+.counter.c-yes{color:var(--yes)} .counter.c-no{color:var(--no)} .counter.c-open{color:var(--open)} .counter.c-pick{color:var(--blue)}
+.counter .lbl{color:var(--ink)}
+.counter[aria-pressed="true"]{background:currentColor}
+.counter[aria-pressed="true"] .lbl,.counter[aria-pressed="true"] b{color:var(--sheet)}
+.counter[aria-pressed="true"] .dot{color:var(--sheet)}
+
+/* Toolbar */
+.bar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--rule);padding:12px 0}
+.bar .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;flex:1 1 100%;scrollbar-width:thin}
+.tab{
+  flex:none;font:inherit;font-weight:700;padding:8px 14px;border-radius:999px;
+  border:2px solid var(--rule);background:var(--sheet);color:var(--ink);cursor:pointer;min-height:44px;
+}
+.tab[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.search{flex:1 1 220px;min-height:44px;padding:8px 14px;border:2px solid var(--rule);border-radius:12px;background:var(--sheet);color:var(--ink);font:inherit}
+.progress{display:flex;align-items:center;gap:10px;font-weight:700;flex:0 0 auto}
+.meter{width:120px;height:10px;border-radius:99px;background:var(--rule);overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--yes);transition:width .25s}
+.btn{font:inherit;font-weight:700;min-height:44px;padding:8px 14px;border-radius:12px;border:2px solid var(--rule);background:var(--sheet);color:var(--ink);cursor:pointer}
+
+/* Ballot sections */
+main{padding:8px 0 40px}
+.section{margin-top:34px}
+.section h2{
+  font-family:"Archivo",sans-serif;font-stretch:112%;font-weight:800;
+  font-size:clamp(26px,4vw,36px);line-height:1.1;margin:0 0 4px;
+}
+.section .hint{margin:0 0 12px;color:var(--muted)}
+.rows{list-style:none;margin:0;padding:0;background:var(--sheet);border:2px solid var(--ink);border-radius:14px;overflow:hidden}
+.row{
+  display:grid;grid-template-columns:44px minmax(150px,230px) minmax(160px,250px) 1fr;
+  gap:6px 16px;align-items:start;padding:14px 16px;border-top:1px solid var(--rule);
+}
+.row:first-child{border-top:0}
+.row.done{background:color-mix(in srgb,var(--yes) 7%,var(--sheet))}
+.oval{
+  width:44px;height:44px;border-radius:50%;border:3px solid var(--ink);background:transparent;cursor:pointer;padding:0;position:relative;color:var(--ink);
+}
+.oval::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--ink);transform:scale(0);transition:transform .15s}
+.oval[aria-pressed="true"]::after{transform:scale(1)}
+.race{font-weight:700;line-height:1.25}
+.vs{display:block;font-size:14px;color:var(--muted);font-weight:400;margin-top:2px}
+.pick{font-family:"Archivo",sans-serif;font-stretch:108%;font-weight:800;font-size:22px;line-height:1.15}
+.pick .tag{display:block;font-family:"Atkinson Hyperlegible",sans-serif;font-stretch:100%;font-weight:700;font-size:13px;margin-top:4px}
+.s-yes .pick,.s-yes .tag{color:var(--yes)}
+.s-no .pick,.s-no .tag{color:var(--no)}
+.s-open .pick,.s-open .tag{color:var(--open)}
+.s-pick .tag{color:var(--blue)}
+.note{margin:0;color:var(--ink)}
+.empty{display:none;margin-top:30px;padding:24px;border:2px dashed var(--rule);border-radius:14px;text-align:center}
+.empty.show{display:block}
+
+details.judges{margin-top:0}
+details.judges summary{cursor:pointer;font-weight:700;color:var(--blue);margin-top:8px}
+details.judges ul{margin:8px 0 0;padding-left:20px;font-size:15px;color:var(--muted)}
+
+footer{border-top:1px solid var(--rule);padding:26px 0 60px;color:var(--muted);font-size:15px}
+footer p{margin:0 0 10px;max-width:70ch}
+footer a{color:var(--blue)}
+
+@media (max-width:760px){
+  body{font-size:16px}
+  .row{grid-template-columns:44px 1fr;grid-template-areas:"o race" "o pick" "n n"}
+  .row .oval{grid-area:o}
+  .row .raceBox{grid-area:race}
+  .row .pickBox{grid-area:pick}
+  .row .note{grid-area:n}
+  .progress{flex:1 1 100%}
+  .meter{flex:1}
+}
+@media print{
+  .bar,.counters,.btn,.oval,.empty{display:none !important}
+  body{background:#fff;color:#000}
+  .hero{border-bottom:3px solid #000;padding:10px 0}
+  .rows{border:1px solid #000}
+  .row{grid-template-columns:minmax(120px,200px) 200px 1fr;break-inside:avoid;padding:6px 8px}
+}
+@media (prefers-reduced-motion: reduce){
+  .counter .dot::after{animation:none;transform:scale(1)}
+  .oval::after,.meter i{transition:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Eric's Voter Guide</h1>
+    <p class="sub">My picks for the Douglas County, Colorado ballot, with a short reason for each.</p>
+    <span class="days" id="days">Election Day is Tuesday, Nov 3, 2026</span>
+    <div class="counters" id="counters" role="group" aria-label="Filter by answer"></div>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="tabs" id="tabs" role="group" aria-label="Filter by section"></div>
+    <input class="search" id="q" type="search" placeholder="Search a name or measure" aria-label="Search the guide">
+    <div class="progress" aria-live="polite">
+      <span id="progText">0 of 0 marked</span>
+      <span class="meter" aria-hidden="true"><i id="meter"></i></span>
+    </div>
+    <button class="btn" id="reset" type="button">Clear marks</button>
+    <button class="btn" id="print" type="button">Print</button>
+  </div>
+</div>
+
+<main class="wrap" id="main"></main>
+<div class="wrap"><div class="empty" id="empty">Nothing matches those filters. Clear the search or pick another section.</div></div>
+
+<footer>
+  <div class="wrap">
+    <p><b>How to use it.</b> Pick a section or tap Yes, No or Undecided to narrow the list. Tap an oval to mark an item once you've filled it in on your ballot. Your marks stay on this device only.</p>
+    <p>Your own ballot only shows the races for your districts. Castle Rock voters see one council race (District 3 or 5), not both.</p>
+    <p>County candidates other than Tim Dietz were not individually researched; they are the Douglas County GOP nominees.</p>
+    <p>Sources: Douglas County 2026 general election sample ballot, Colorado Office of Judicial Performance Evaluation, Colorado Politics, Denver Gazette, Colorado Sun, Colorado Newsline, Douglas County GOP voter guide.</p>
+    <p>These are one voter's picks, not an official recommendation. Check the official ballot before you mark it.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var SECTIONS=[
+    {id:"cand",name:"Candidates",hint:"Federal and state races."},
+    {id:"county",name:"Douglas County",hint:"County offices. All are Douglas County GOP nominees."},
+    {id:"cr",name:"Castle Rock",hint:"Mayor and town council."},
+    {id:"state",name:"State measures",hint:"Amendments are constitutional changes. Propositions change state law."},
+    {id:"dc",name:"County measures",hint:"Douglas County ballot questions."},
+    {id:"judges",name:"Judges",hint:"Retention votes: Yes keeps the judge, No sends the seat back to the governor to fill."}
+  ];
+
+  var D=[
+    // Candidates
+    {s:"cand",race:"Governor",pick:"Victor Marx",st:"pick",tag:"Republican",vs:"vs Weiser (D), Lopez (unaffiliated), 4 others",note:"GOP nominee. Wants zero-based budgeting and a phase-down of the income tax."},
+    {s:"cand",race:"U.S. Senate",pick:"Mark Baisley",st:"pick",tag:"Republican",vs:"vs Hickenlooper (D), 4 others",note:"State senator and former state GOP vice chair."},
+    {s:"cand",race:"U.S. House, District 4",pick:"Lauren Boebert",st:"pick",tag:"Republican",vs:"vs Laubacher (D), Mangeris (L)",note:"Republican incumbent."},
+    {s:"cand",race:"Attorney General",pick:"Michael Allen",st:"pick",tag:"Republican",vs:"vs Griswold (D)",note:"El Paso and Teller County DA. Says the AG should focus on Colorado."},
+    {s:"cand",race:"Secretary of State",pick:"James Wiley",st:"pick",tag:"Republican",vs:"vs Gonzalez (D), 3 others",note:"Wants to end universal mail ballots and return control of elections to county clerks."},
+    {s:"cand",race:"State Treasurer",pick:"Kevin Grantham",st:"pick",tag:"Republican",vs:"vs Bridges (D), 2 others",note:"Former Senate president and Fremont County commissioner."},
+    {s:"cand",race:"State Senate, District 4",pick:"Teddy Collins",st:"pick",tag:"Republican",vs:"vs Kurth (D)",note:"GOP nominee."},
+    {s:"cand",race:"State House, District 45",pick:"Max Brooks",st:"pick",tag:"Republican",vs:"vs Clarkson (D), Harlos (L)",note:"Republican incumbent and former Castle Rock councilman."},
+
+    // County
+    {s:"county",race:"County Commissioner, District 1",pick:"Jake Bockenfeld",st:"pick",tag:"Republican",vs:"vs Bonham (D)",note:"GOP nominee."},
+    {s:"county",race:"Clerk and Recorder",pick:"Sheri Davis",st:"pick",tag:"Republican",vs:"vs Oehler (D)",note:"GOP nominee."},
+    {s:"county",race:"County Treasurer",pick:"Tim Dietz",st:"pick",tag:"Republican",vs:"vs Dan Smith (D)",note:"Castle Rock councilman and Navy veteran. Campaigning on keeping taxes low."},
+    {s:"county",race:"County Assessor",pick:"Toby Damisch",st:"pick",tag:"Republican",vs:"vs Garr (D)",note:"GOP nominee."},
+    {s:"county",race:"County Sheriff",pick:"Darren Weekly",st:"pick",tag:"Republican",vs:"Write-in only",note:"No opponent on the ballot."},
+    {s:"county",race:"County Surveyor",pick:"Darrell Roberts",st:"pick",tag:"Republican",vs:"Unopposed",note:"No opponent on the ballot."},
+    {s:"county",race:"County Coroner",pick:"Raeann Brown",st:"pick",tag:"Republican",vs:"Unopposed",note:"No opponent on the ballot."},
+
+    // Castle Rock
+    {s:"cr",race:"Mayor",pick:"Laura Cavey",st:"pick",tag:"Four-year term",vs:"vs Amelia Thomas, Stu Butler",note:"Current mayor pro tem, on council since 2020."},
+    {s:"cr",race:"Council, District 3",pick:"Matt Smith",st:"pick",tag:"Four-year term",vs:"vs Phelen, Coyle",note:"County GOP pick. Only on your ballot if you live in District 3."},
+    {s:"cr",race:"Council, District 5",pick:"Mitchell Sawin",st:"pick",tag:"Four-year term",vs:"vs Reilly",note:"County GOP pick. Only on your ballot if you live in District 5."},
+
+    // State measures
+    {s:"state",race:"Amendment 81",pick:"Yes",st:"yes",note:"Police must notify federal immigration authorities within 72 hours of charging certain people."},
+    {s:"state",race:"Amendment 82",pick:"Yes",st:"yes",note:"Constitutional right to buy natural gas for homes and businesses."},
+    {s:"state",race:"Amendment 83",pick:"Yes",st:"yes",note:"Constitutional right to hunt and fish."},
+    {s:"state",race:"Amendment 84",pick:"Yes",st:"yes",note:"Mail ballots must include the last 4 digits of an ID number."},
+    {s:"state",race:"Amendment 85",pick:"Yes",st:"yes",note:"Ballot questions written at an 8th grade reading level."},
+    {s:"state",race:"Amendment 86",pick:"Yes",st:"yes",note:"Changes to the congressional map need approval from the independent commission and the Colorado Supreme Court."},
+    {s:"state",race:"Amendment 87",pick:"No",st:"no",note:"Graduated income tax from 3.7% to 8.4%, about $2.7 billion more a year."},
+    {s:"state",race:"Proposition NN",pick:"No",st:"no",note:"Keeps about $4.6 billion that would otherwise be refunded under TABOR, for K-12."},
+    {s:"state",race:"Proposition 132",pick:"No",st:"no",note:"Any fentanyl possession becomes a felony, with an 8-year mandatory minimum for distribution. A mandatory sentence removes context and stops a judge from weighing the facts of each case."},
+    {s:"state",race:"Proposition 133",pick:"No",st:"no",note:"Life without parole for child sex trafficking (now 8 to 48 years), and covers buyers. A mandatory sentence leaves a judge no room to account for the facts of the case."},
+    {s:"state",race:"Proposition 134",pick:"Yes",st:"yes",note:"School sports separated by biological sex."},
+    {s:"state",race:"Proposition 135",pick:"Yes",st:"yes",note:"Bans surgeries on minors and public funding for them."},
+    {s:"state",race:"Proposition 136",pick:"Yes",st:"yes",note:"Caps the state income tax at 4.4%."},
+    {s:"state",race:"Proposition 137",pick:"No",st:"no",note:"Redirects sporting goods sales tax revenue, about $175 million a year, outside TABOR."},
+
+    // County measures
+    {s:"dc",race:"Question 200",pick:"No",st:"no",note:"Keeps the board at 3 commissioners and avoids $760,000 to $1.3 million a year in added cost."},
+    {s:"dc",race:"Question 201",pick:"Option 2",st:"yes",tag:"3 district seats, 2 at-large",note:"Matches the county GOP guide."},
+    {s:"dc",race:"Question 1A",pick:"Yes",st:"yes",note:"Keeps commissioners elected countywide, which limits Highlands Ranch's influence."},
+    {s:"dc",race:"Douglas County schools $54M levy (5A)",pick:"No",st:"no",note:"About $236 a year on a $700,000 home."},
+    {s:"dc",race:"Front Range rail (7A)",pick:"No",st:"no",note:"Castle Rock votes won't be counted anyway."},
+
+    // Judges
+    {s:"judges",race:"Supreme Court Justice William Hood III",pick:"No",st:"no",note:"He wrote the 2018 RTD tax ruling, and the U.S. Supreme Court unanimously reversed the Colorado ruling that removed Trump from the ballot."},
+    {s:"judges",race:"The other 12 judges",pick:"Yes",st:"yes",note:"I found no similar record for them. The county GOP guide also recommends retaining all 12.",
+      extra:"<details class='judges'><summary>See the 12 names</summary><ul><li>Court of Appeals: Freyre, Harris, Lum, Moultrie, Schock, Sullivan</li><li>23rd District Court: Baum, Klingensmith, Slade, Warhola</li><li>Douglas County Court: Bowling, Fields</li></ul></details>"}
+  ];
+
+  var LABEL={yes:"Yes",no:"No",open:"Undecided",pick:"Candidates"};
+  var state={sec:"all",st:"all",q:""};
+  var marks={};
+  var KEY="erics-voter-guide-marks-v1";
+  try{var raw=localStorage.getItem(KEY);if(raw)marks=JSON.parse(raw)||{};}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(marks));}catch(e){}}
+
+  D.forEach(function(d,i){d.id="i"+i;});
+
+  // Counters
+  var counts={yes:0,no:0,open:0,pick:0};
+  D.forEach(function(d){counts[d.st]++;});
+  var cEl=document.getElementById("counters");
+  [["pick","c-pick","Candidates"],["yes","c-yes","Yes"],["no","c-no","No"],["open","c-open","Undecided"]].forEach(function(c,i){
+    if(!counts[c[0]])return;
+    var b=document.createElement("button");
+    b.type="button";b.className="counter "+c[1];b.setAttribute("aria-pressed","false");b.dataset.st=c[0];
+    b.innerHTML='<span class="dot" style="--d:'+(i*0.12)+'s"></span><b data-n="'+counts[c[0]]+'">0</b><span class="lbl">'+c[2]+'</span>';
+    b.addEventListener("click",function(){
+      state.st=(state.st===c[0])?"all":c[0];
+      render();
+    });
+    cEl.appendChild(b);
+  });
+  // count up once
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  Array.prototype.forEach.call(cEl.querySelectorAll("b"),function(el){
+    var n=+el.dataset.n;
+    if(reduce||n===0){el.textContent=n;return;}
+    var t0=null;
+    function step(t){if(!t0)t0=t;var p=Math.min((t-t0)/700,1);el.textContent=Math.round(n*p);if(p<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);
+  });
+
+  // Tabs
+  var tabsEl=document.getElementById("tabs");
+  var tabDefs=[{id:"all",name:"Everything"}].concat(SECTIONS);
+  tabDefs.forEach(function(t){
+    var b=document.createElement("button");
+    b.type="button";b.className="tab";b.textContent=t.name;b.dataset.sec=t.id;
+    b.addEventListener("click",function(){state.sec=t.id;render();});
+    tabsEl.appendChild(b);
+  });
+
+  // Search
+  var qEl=document.getElementById("q");
+  qEl.addEventListener("input",function(){state.q=qEl.value.trim().toLowerCase();render();});
+
+  // Days left
+  (function(){
+    var el=document.getElementById("days");
+    var now=new Date();
+    var elec=new Date(2026,10,3);
+    var today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+    var diff=Math.round((elec-today)/86400000);
+    if(diff>1)el.textContent=diff+" days until Election Day, Tue Nov 3, 2026";
+    else if(diff===1)el.textContent="Election Day is tomorrow, Tue Nov 3, 2026";
+    else if(diff===0)el.textContent="Election Day is today";
+    else el.textContent="Election Day was Nov 3, 2026";
+  })();
+
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+  var main=document.getElementById("main");
+  var emptyEl=document.getElementById("empty");
+
+  function match(d){
+    if(state.sec!=="all"&&d.s!==state.sec)return false;
+    if(state.st!=="all"&&d.st!==state.st)return false;
+    if(state.q){
+      var hay=(d.race+" "+d.pick+" "+(d.vs||"")+" "+d.note+" "+(d.tag||"")).toLowerCase();
+      if(hay.indexOf(state.q)<0)return false;
+    }
+    return true;
+  }
+
+  function render(){
+    // tab + counter pressed states
+    Array.prototype.forEach.call(tabsEl.children,function(b){b.setAttribute("aria-pressed",String(b.dataset.sec===state.sec));});
+    Array.prototype.forEach.call(cEl.children,function(b){b.setAttribute("aria-pressed",String(b.dataset.st===state.st));});
+
+    var html="",shown=0;
+    SECTIONS.forEach(function(sec){
+      var items=D.filter(function(d){return d.s===sec.id&&match(d);});
+      if(!items.length)return;
+      shown+=items.length;
+      html+='<section class="section" aria-labelledby="h-'+sec.id+'"><h2 id="h-'+sec.id+'">'+esc(sec.name)+'</h2><p class="hint">'+esc(sec.hint)+'</p><ul class="rows">';
+      items.forEach(function(d){
+        var on=!!marks[d.id];
+        var tag=d.tag?d.tag:(d.st==="pick"?"":"");
+        html+='<li class="row s-'+d.st+(on?' done':'')+'">'
+          +'<button type="button" class="oval" data-id="'+d.id+'" aria-pressed="'+on+'" aria-label="Mark '+esc(d.race)+' as filled in"></button>'
+          +'<div class="raceBox race">'+esc(d.race)+(d.vs?'<span class="vs">'+esc(d.vs)+'</span>':'')+'</div>'
+          +'<div class="pickBox pick">'+esc(d.pick)+(tag?'<span class="tag">'+esc(tag)+'</span>':'')+'</div>'
+          +'<div class="note">'+esc(d.note)+(d.extra||'')+'</div>'
+          +'</li>';
+      });
+      html+='</ul></section>';
+    });
+    main.innerHTML=html;
+    emptyEl.classList.toggle("show",shown===0);
+    updateProgress();
+  }
+
+  function updateProgress(){
+    var total=D.length,done=0;
+    D.forEach(function(d){if(marks[d.id])done++;});
+    document.getElementById("progText").textContent=done+" of "+total+" marked";
+    document.getElementById("meter").style.width=(total?done/total*100:0)+"%";
+  }
+
+  main.addEventListener("click",function(e){
+    var btn=e.target.closest&&e.target.closest(".oval");
+    if(!btn)return;
+    var id=btn.dataset.id;
+    if(marks[id])delete marks[id];else marks[id]=1;
+    save();
+    var on=!!marks[id];
+    btn.setAttribute("aria-pressed",String(on));
+    btn.closest(".row").classList.toggle("done",on);
+    updateProgress();
+  });
+
+  document.getElementById("reset").addEventListener("click",function(){marks={};save();render();});
+  document.getElementById("print").addEventListener("click",function(){window.print();});
+
+  render();
+})();
+</script>
+</body>
+</html>
