@@ -163,6 +163,12 @@ const GROUPS = [
   // kind "file" is download-only: a template full of merge fields is not
   // something to look at in a viewer
   ["For the developer — source HTML", [
+    ["files/cmg-newsletter-kit.zip", "cmg-newsletter-kit.zip",
+     "Developer kit for Claude",
+     "Everything below plus the build tools, a Claude skill, design rules, ad specs and lessons learned. Unzip and open in Claude Code.", "5.7 MB", "file"],
+    ["files/wordpress-builder-notes.md", "wordpress-builder-notes.md",
+     "WordPress builder notes",
+     "How an optional builder would work: copy entry, ad toggles, stored composed emails, and sending left open. Notes only; nothing is built.", "", "file"],
     ["files/AR-Today-AM-sample.html", "AR-Today-AM-sample.html",
      "AR Today AM — sample HTML",
      "The approved email exactly as rendered above, copy and all. Use it to check how a change renders.", "", "file"],
@@ -226,7 +232,7 @@ for (const [heading, items] of GROUPS) {
       '<button type="button" class="dl">Download</button></span>';
     row.querySelector(".ic").textContent =
       kind === "img" ? "PNG" : kind === "file"
-        ? (filename.endsWith(".md") ? "MD" : "HTML") : "PDF";
+        ? (filename.endsWith(".md") ? "MD" : filename.endsWith(".zip") ? "ZIP" : "HTML") : "PDF";
     row.querySelector("b").textContent = title;
     row.querySelector(".tx span").textContent = desc;
     row.querySelector(".sz").textContent = size;

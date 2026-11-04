@@ -24,8 +24,10 @@
        reversed white one, so the top of the email is one solid colour. The
        flag is the stacked AR lockup from the print magazine with Today set
        against it, bottom-aligned on the wordmark's baseline.
-       NOTE: logos/AR-lockup-white.png must be hosted on autoremarketing.com
-       and the src swapped to that URL before a send.
+       Today is an image, not live type, because Gmail and desktop Outlook will
+       not load Oswald. Its alt text carries the word when images are off.
+       NOTE: logos/AR-lockup-white.png and logos/today-orange.png must be hosted
+       on autoremarketing.com and their srcs swapped to those URLs before a send.
        THEME: BLUE. Every chrome surface - bar, flag rule, section chips,
        Editor's Picks, buttons, promo and footer - sits in one navy family.
        Orange appears only as an accent: kickers, CTAs and the Picks rule.
@@ -69,8 +71,9 @@
       .pick-img{width:100%!important;max-width:100%!important;height:auto!important}
       .brief-body{display:block!important;width:100%!important;max-width:100%!important}
       .flag-cell{text-align:left!important}
-      .flag-logo{width:44px!important;height:68px!important}
-      .flag-today{font-size:40px!important;line-height:40px!important;padding-top:0!important}
+      .flag-logo-cell{width:52px!important}
+      .flag-logo{width:52px!important;height:80px!important}
+      .flag-today{width:auto!important;height:57px!important}
       .ad-logo-cell{width:104px!important;padding-right:14px!important}
       .ad-logo{width:104px!important;height:104px!important}
     }
@@ -113,7 +116,7 @@
 </table>
 <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#ffffff;">
   <tr>
-    <td style="padding:0;font-size:0;line-height:0;">
+    <td class="mp" style="padding:10px 24px 14px 24px;">
       <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
         <tr>
           <td align="center" style="text-align:center;padding:0;font-size:0;line-height:0;">

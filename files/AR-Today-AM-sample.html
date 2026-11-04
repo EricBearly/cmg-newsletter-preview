@@ -24,8 +24,10 @@
        reversed white one, so the top of the email is one solid colour. The
        flag is the stacked AR lockup from the print magazine with Today set
        against it, bottom-aligned on the wordmark's baseline.
-       NOTE: logos/AR-lockup-white.png must be hosted on autoremarketing.com
-       and the src swapped to that URL before a send.
+       Today is an image, not live type, because Gmail and desktop Outlook will
+       not load Oswald. Its alt text carries the word when images are off.
+       NOTE: logos/AR-lockup-white.png and logos/today-orange.png must be hosted
+       on autoremarketing.com and their srcs swapped to those URLs before a send.
        THEME: BLUE. Every chrome surface - bar, flag rule, section chips,
        Editor's Picks, buttons, promo and footer - sits in one navy family.
        Orange appears only as an accent: kickers, CTAs and the Picks rule.
@@ -71,7 +73,7 @@
       .flag-cell{text-align:left!important}
       .flag-logo-cell{width:52px!important}
       .flag-logo{width:52px!important;height:80px!important}
-      .flag-today{font-size:42px!important;line-height:42px!important;padding-top:0!important}
+      .flag-today{width:auto!important;height:57px!important}
       .ad-logo-cell{width:104px!important;padding-right:14px!important}
       .ad-logo{width:104px!important;height:104px!important}
     }
@@ -123,7 +125,7 @@
             </a>
           </td>
           <td valign="middle" class="flag-cell" style="padding:0 0 0 10px;text-align:left;">
-            <span class="flag-today" style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:56px;line-height:56px;font-weight:700;color:#f57c29;letter-spacing:-0.5px;display:block;">Today</span>
+            <img src="logos/today-orange.png" width="126" height="76" alt="Today" class="flag-today" style="width:126px;height:76px;display:block;border:0;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:40px;line-height:56px;font-weight:700;color:#f57c29;">
           </td>
         </tr>
       </table>

@@ -22,9 +22,20 @@ Handlebars and Liquid are close enough to port in an afternoon.
 {{.}}                      the current item, where a list holds plain strings
 ```
 
-Values are inserted as-is, not HTML-escaped. Headlines and body copy in these
-titles use entities (`&rsquo;`, `&amp;`) and escaping would show them raw, so
-escape on the way *into* storage, not on the way out.
+**Turn HTML escaping off in your engine.** Mustache engines escape `{{field}}`
+by default, and these templates use double braces throughout because the copy
+carries entities (`&rsquo;`, `&amp;`). Left on, readers see a literal `&rsquo;`.
+Tested with the `chevron` engine: default settings mangled the copy, and with
+escaping off the output matched our reference renderer on all three templates.
+
+| Engine | Setting |
+|---|---|
+| mustache.php | `new Mustache_Engine(['escape' => fn($v) => $v])` |
+| mustache.js | `Mustache.escape = t => t` |
+| Handlebars | `Handlebars.compile(tpl, { noEscape: true })` |
+
+Since nothing is escaped on the way out, sanitize on the way *in*: anything an
+editor types must be cleaned before it reaches the template.
 
 ## Ads
 
@@ -60,7 +71,12 @@ a text ad.
 | `HAS_HEADLINES` + `HEADLINES` | the More headlines list (AM, SubPrime) |
 | `HAS_EARLIER` + `EARLIER`, `HAS_PODCASTS` + `PODCASTS` | PM only |
 | `PROMO` | the house promo: `url`, `logo`, `when`, `head`, `body` |
-| `ISSUE_DATE` `ISSUE_URL` `FORWARD_URL` `RECIPIENT_EMAIL` | chrome |
+| `ISSUE_DATE` | the date strip |
+| `VIEW_IN_BROWSER_URL` `ISSUE_URL` | the hosted copy of this edition |
+| `FORWARD_URL` `RECIPIENT_EMAIL` `UNSUBSCRIBE_URL` | **supplied by the sending platform.** Pass that platform's own merge tag as the value, so it survives into the composed email |
+
+**An empty field renders as nothing, with no error.** A blank `UNSUBSCRIBE_URL`
+produces a dead "Opt out" link, so make it a required field in your builder.
 
 A story item is `{URL, CAT, HEAD, BODY, IMG, ALT}`. **Leave `IMG` empty and
 the thumbnail cell disappears** and the brief runs full width — that is how
@@ -100,9 +116,11 @@ $data = [
 
 ## Before a send
 
-The masthead art is referenced as `logos/AR-lockup-white.png` (AR Today) and
-a hosted URL (SubPrime). **Host the AR lockup on autoremarketing.com and
-point the `src` at that URL** — a relative path will not resolve in an inbox.
+The AR Today masthead art is referenced as `logos/AR-lockup-white.png` plus
+`logos/today-orange.png` (AM) or `logos/today-pm-orange.png` (PM); SubPrime's is
+already a hosted URL. **Host those files on autoremarketing.com and point each
+`src` at its URL** — a relative path will not resolve in an inbox. "Today" is an
+image because Gmail and desktop Outlook will not load the Oswald web font.
 The same goes for any image still pointing at a local path.
 
 Nothing in these templates assumes a particular sending platform. Open-tracking
