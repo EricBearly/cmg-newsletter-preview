@@ -149,6 +149,31 @@ const GROUPS = [
      "2027 E-Newsletter Rate Sheet",
      "All six titles: placement ladder, units per edition, IAB-aligned creative specs and monthly rates.", "0.5 MB"],
   ]],
+  // kind "file" is download-only: a template full of merge fields is not
+  // something to look at in a viewer
+  ["For the developer — source HTML", [
+    ["files/AR-Today-AM-sample.html", "AR-Today-AM-sample.html",
+     "AR Today AM — sample HTML",
+     "The approved email exactly as rendered above, copy and all. Use it to check how a change renders.", "", "file"],
+    ["files/AR-Today-PM-sample.html", "AR-Today-PM-sample.html",
+     "AR Today PM — sample HTML",
+     "The afternoon edition as rendered above.", "", "file"],
+    ["files/SubPrime-sample.html", "SubPrime-sample.html",
+     "SubPrime — sample HTML",
+     "The SubPrime edition as rendered above.", "", "file"],
+    ["files/AR-Today-AM-template.html", "AR-Today-AM-template.html",
+     "AR Today AM — builder template",
+     "Same markup, no copy: Mustache merge fields throughout, and every ad position disappears when it is unsold.", "", "file"],
+    ["files/AR-Today-PM-template.html", "AR-Today-PM-template.html",
+     "AR Today PM — builder template",
+     "Six ad positions, plus Earlier Today, Editor’s Picks and Latest Podcasts as repeating lists.", "", "file"],
+    ["files/SubPrime-template.html", "SubPrime-template.html",
+     "SubPrime — builder template",
+     "Five ad positions. Same field names as AR Today.", "", "file"],
+    ["files/README-templates.md", "README-templates.md",
+     "Template integration notes",
+     "Every merge field, what makes an ad block vanish, the sep flag, and what has to be hosted before a send.", "", "file"],
+  ]],
 ];
 
 if (window.pdfjsLib) {
@@ -188,11 +213,18 @@ for (const [heading, items] of GROUPS) {
       '<span class="acts"><span class="sz"></span>' +
       '<button type="button" class="view">View</button>' +
       '<button type="button" class="dl">Download</button></span>';
-    row.querySelector(".ic").textContent = kind === "img" ? "PNG" : "PDF";
+    row.querySelector(".ic").textContent =
+      kind === "img" ? "PNG" : kind === "file"
+        ? (filename.endsWith(".md") ? "MD" : "HTML") : "PDF";
     row.querySelector("b").textContent = title;
     row.querySelector(".tx span").textContent = desc;
     row.querySelector(".sz").textContent = size;
-    row.querySelector(".view").addEventListener("click", () => open_(url, filename, title, kind, fileUrl));
+    const v = row.querySelector(".view");
+    if (kind === "file") {
+      v.remove();                       // nothing useful to show in the viewer
+    } else {
+      v.addEventListener("click", () => open_(url, filename, title, kind, fileUrl));
+    }
     const d = row.querySelector(".dl");
     d.addEventListener("click", () => save(d, fileUrl, filename));
     dlButtons.push(d);

@@ -1,0 +1,737 @@
+<!-- ============================================================
+     AUTO REMARKETING TODAY (AM) - BUILDER TEMPLATE
+     Mustache fields. A section renders once for a hash, once per item for a
+     list, and not at all when the value is absent, false or an empty list -
+     so an unsold ad position removes its whole block.
+       AD1..AD7            {url, img_desktop, img_mobile, alt} for banners,
+                           {url, logo, name, head, body, cta} for text ads
+       LEAD_*              URL, CAT, HEAD, DECK, BYLINE, IMG, ALT, BODY(list)
+       STORIES_1/2/3       runs between the fixed ad positions;
+                           each item {URL, CAT, HEAD, BODY, IMG, ALT}
+                           IMG empty drops the thumbnail cell
+       HAS_PICKS + PICKS   {URL, CAT, HEAD, BODY, IMG}
+       HAS_HEADLINES
+         + HEADLINES       {URL, CAT, HEAD, sep} - sep true on all but the first
+       HAS_PROMO + PROMO   the house promo {url, logo, when, head, body}
+       ISSUE_DATE, ISSUE_URL, FORWARD_URL, RECIPIENT_EMAIL
+     ============================================================ -->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <title>Auto Remarketing Today</title>
+  <!--[if mso]>
+  <noscript><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Noto+Serif:ital,wght@0,600;0,700;1,400;1,600&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style type="text/css">
+    /* Separate creative per breakpoint. Outlook ignores media queries and
+       keeps the desktop file, which is the correct fall-back. */
+    .m-only{display:none!important;max-height:0!important;overflow:hidden!important;mso-hide:all;}
+
+    /* ---------------------------------------------------------------
+       AUTO REMARKETING TODAY
+       DARK MASTHEAD. The plate behind the flag is dark and the mark is the
+       reversed white one, so the top of the email is one solid colour. The
+       flag is the stacked AR lockup from the print magazine with Today set
+       against it, bottom-aligned on the wordmark's baseline.
+       NOTE: logos/AR-lockup-white.png must be hosted on autoremarketing.com
+       and the src swapped to that URL before a send.
+       THEME: BLUE. Every chrome surface - bar, flag rule, section chips,
+       Editor's Picks, buttons, promo and footer - sits in one navy family.
+       Orange appears only as an accent: kickers, CTAs and the Picks rule.
+
+       Carried over from the print magazine (September 2026 issue):
+       - the navy "LATEST NEWS" chip, used here to label each story
+         with the section it came from, so the read stays continuous
+         instead of breaking into channel blocks
+       - serif headlines with a bold italic deck on the lead
+       - the black banner strip used for the issue badge, reused for
+         the one callout block (Editor's Picks)
+       - byline set small and bold under the headline
+
+       Ads: AD 1 = 728x90 leaderboard. AD 2-7 = text ad with logo.
+       Palette: ink #0f1419, navy #194568, chip #336178 (sampled from
+       the print chip), orange #f57c29, panel #e9ebed.
+       --------------------------------------------------------------- */
+    html,body{margin:0!important;padding:0!important;height:100%!important;width:100%!important}
+    *{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+    div[style*="margin: 16px 0"]{margin:0!important}
+    table,td{mso-table-lspace:0pt!important;mso-table-rspace:0pt!important}
+    table{border-spacing:0!important;border-collapse:collapse!important;table-layout:fixed!important;margin:0 auto!important}
+    img{-ms-interpolation-mode:bicubic;border:0;height:auto;line-height:100%;outline:none;text-decoration:none}
+    a{text-decoration:none}
+    *[x-apple-data-detectors],.unstyle-auto-detected-links *,.aBn{border-bottom:0!important;cursor:default!important;color:inherit!important;text-decoration:none!important;font-size:inherit!important;font-family:inherit!important;font-weight:inherit!important;line-height:inherit!important}
+    @media screen and (max-width:649px){
+      .d-only{display:none!important;max-height:0!important;overflow:hidden!important;}
+      .m-only{display:block!important;max-height:none!important;width:100%!important;height:auto!important;}
+
+      .email-container{width:100%!important;max-width:100%!important}
+      .stack{display:block!important;width:100%!important;max-width:100%!important;direction:ltr!important}
+      .stack-pad{padding-bottom:24px!important}
+      .mp{padding-left:18px!important;padding-right:18px!important}
+      .m-hide{display:none!important}
+      .fluid-img{width:100%!important;height:auto!important}
+      .lead-hl{font-size:26px!important;line-height:33px!important}
+      .lead-deck{font-size:16px!important;line-height:24px!important}
+      .brief-hl{font-size:19px!important;line-height:26px!important}
+      .thumb-cell{display:block!important;width:100%!important;max-width:100%!important;padding-right:0!important;padding-bottom:12px!important}
+      .thumb{width:100%!important;max-width:100%!important;height:auto!important}
+      .pick-img{width:100%!important;max-width:100%!important;height:auto!important}
+      .brief-body{display:block!important;width:100%!important;max-width:100%!important}
+      .flag-cell{text-align:left!important}
+      .flag-logo{width:44px!important;height:68px!important}
+      .flag-today{font-size:40px!important;line-height:40px!important;padding-top:0!important}
+      .ad-logo-cell{width:104px!important;padding-right:14px!important}
+      .ad-logo{width:104px!important;height:104px!important}
+    }
+  </style>
+</head>
+
+<body width="100%" style="margin:0;padding:0!important;mso-line-height-rule:exactly;background-color:#dcdfe3;">
+<center role="article" aria-roledescription="email" lang="en" style="width:100%;background-color:#dcdfe3;">
+
+<!-- Preheader (hidden) -->
+<div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
+  Black Book&rsquo;s retention index falls 3.1%, dealers trim asking prices, and NAAA sets its next leadership rotation.&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+</div>
+
+<div style="max-width:650px;margin:0 auto;" class="email-container">
+<!--[if mso]><table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="650"><tr><td><![endif]-->
+
+
+<!-- =============================================
+     1. UTILITY BAR
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#0d2b45;">
+  <tr>
+    <td class="mp" style="padding:9px 24px;font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:11px;line-height:16px;color:#8d99a5;text-align:center;letter-spacing:0.4px;">
+      <a href="{{VIEW_IN_BROWSER_URL}}" style="color:#c3cdd7;text-decoration:none;">View in browser</a>
+      <span style="color:#3d4852;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <a href="{{FORWARD_URL}}" style="color:#ffffff;text-decoration:underline;font-weight:700;">Share this newsletter &#8250;</a>
+      <span style="color:#3d4852;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <a href="https://www.autoremarketing.com/subscribe" style="color:#f57c29;text-decoration:none;font-weight:700;">Subscribe</a>
+    </td>
+  </tr>
+</table>
+
+
+<!-- =============================================
+     2. FLAG
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#0d2b45;">
+  <tr><td style="height:5px;line-height:5px;font-size:0;">&nbsp;</td></tr>
+</table>
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#0d2b45;">
+  <tr>
+    <td class="mp" style="padding:20px 24px 18px 24px;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+          <td valign="bottom" width="60" style="width:60px;padding:0;">
+            <a href="https://www.autoremarketing.com/" target="_blank">
+              <img src="logos/AR-lockup-white.png" width="60" height="92" alt="Auto Remarketing" class="flag-logo" style="width:60px;height:92px;display:block;border:0;">
+            </a>
+          </td>
+          <td valign="bottom" class="flag-cell" style="padding:0 0 0 18px;text-align:left;">
+            <span class="flag-today" style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:54px;line-height:54px;font-weight:700;color:#f57c29;letter-spacing:-0.5px;display:block;">Today</span>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#194568;">
+  <tr>
+    <td class="mp" style="padding:9px 24px;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+          <td valign="middle" style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:500;letter-spacing:1.6px;text-transform:uppercase;color:#ffffff;">{{ISSUE_DATE}}</td>
+          <td valign="middle" class="m-hide" style="text-align:right;font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:11px;font-style:italic;color:#9dc0dd;">The News Media of the Pre-Owned Industry</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+
+{{#AD1}}
+<!-- =============================================
+     AD 1 - TOP LEADERBOARD, full bleed
+     Slot is 650x80. Supply the creative at 1300x160 (2x) for a 1:1 render.
+     An existing 728x90 leaderboard also drops in and scales to 650x80, which
+     is what the sample below shows (source 1456x180, so still above 1x).
+     Full bleed deliberately: no side gutters, so the unit never has to be
+     downscaled to fit inside the text column.
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#fdf4ec;">
+  <tr>
+    <td style="padding:16px 0 0 0;font-size:0;line-height:0;">
+      <a href="{{url}}" target="_blank" style="text-decoration:none;">
+        <img src="{{img_desktop}}" width="650" alt="{{alt}}" class="fluid-img d-only" style="width:100%;max-width:650px;height:auto;display:block;">
+        <img src="{{img_desktop}}" width="375" alt="{{alt}}"
+             class="m-only" style="width:100%;max-width:375px;height:auto;">
+      </a>
+    </td>
+  </tr>
+  <tr><td style="height:18px;line-height:18px;font-size:0;">&nbsp;</td></tr>
+</table>
+{{/AD1}}
+
+
+<!-- =============================================
+     3. LEAD STORY
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#ffffff;border-top:1px solid #d4d9de;">
+  <tr>
+    <td class="mp" style="padding:24px 24px 0 24px;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="left">
+        <tr>
+          <td style="background-color:#336178;padding:5px 10px 4px 10px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:#ffffff;">{{LEAD_CAT}}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:14px 24px 0 24px;">
+      <a href="{{LEAD_URL}}" style="text-decoration:none;">
+        <span class="lead-hl" style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:30px;line-height:39px;font-weight:700;color:#0f1419;letter-spacing:-0.3px;">{{LEAD_HEAD}}</span>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:10px 24px 0 24px;">
+      <span class="lead-deck" style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:17px;line-height:26px;font-style:italic;font-weight:400;color:#4a5662;">{{LEAD_DECK}}</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:12px 24px 0 24px;font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:#6b7785;">
+      {{LEAD_BYLINE}}
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:14px 24px 0 24px;">
+      <a href="{{LEAD_URL}}" style="text-decoration:none;">
+        <img src="{{LEAD_IMG}}" width="602" alt="{{LEAD_ALT}}" class="fluid-img" style="width:100%;max-width:602px;height:auto;display:block;">
+      </a>
+    </td>
+  </tr>{{#LEAD_BODY}}
+  <tr>
+    <td class="mp" style="padding:16px 24px 0 24px;font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:26px;color:#2b3640;">
+      {{.}}
+    </td>
+  </tr>{{/LEAD_BODY}}
+  <tr>
+    <td class="mp" style="padding:14px 24px 26px 24px;">
+      <a href="{{LEAD_URL}}" style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#194568;text-decoration:none;border-bottom:2px solid #f57c29;padding-bottom:2px;">Read more</a>
+    </td>
+  </tr>
+</table>
+
+
+{{#AD2}}
+<!-- =============================================
+     AD 2 - TEXT AD WITH LOGO
+     Logo 200x112 supplied, renders 92x52 desktop / 76px mobile.
+     Headline up to ~55 characters, body up to ~165.
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#fdf4ec;border-top:3px solid #0d2b45;border-bottom:1px solid #d4d9de;">
+  <tr>
+    <td class="mp" style="padding:9px 24px 0 24px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a949e;">Sponsored</td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:8px 24px 18px 24px;">
+      <a href="{{url}}" target="_blank" style="text-decoration:none;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tr>
+            <td width="170" valign="top" class="ad-logo-cell" style="width:170px;padding-right:18px;">
+              <img src="{{logo}}" width="170" height="170" alt="{{name}} logo" class="ad-logo" style="width:170px;height:170px;display:block;">
+            </td>
+            <td valign="top">
+              <span style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:21px;font-weight:700;color:#0f1419;line-height:29px;letter-spacing:-0.2px;display:block;">{{head}}</span>
+              <span style="font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#3b4751;line-height:23px;display:block;padding-top:8px;">{{body}}</span>
+              <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#f57c29;display:inline-block;padding-top:8px;">{{cta}}&#8250;</span>
+            </td>
+          </tr>
+        </table>
+      </a>
+    </td>
+  </tr>
+</table>
+{{/AD2}}
+
+
+<!-- =============================================
+     4. STORY FLOW - each item carries its own section chip
+     ============================================= -->
+
+{{#STORIES_1}}
+<!-- STORY -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#ffffff;">
+  <tr>
+    <td class="mp" style="padding:24px 24px 0 24px;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+{{#IMG}}
+          <td width="170" valign="top" class="thumb-cell" style="width:170px;padding-right:18px;">
+            <a href="{{URL}}" style="text-decoration:none;">
+              <img src="{{IMG}}" width="170" alt="{{ALT}}" class="thumb" style="width:170px;height:auto;display:block;">
+            </a>
+          </td>
+{{/IMG}}
+          <td valign="top" class="brief-body">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="left">
+              <tr><td style="background-color:#336178;padding:4px 9px 3px 9px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#ffffff;">{{CAT}}</td></tr>
+            </table>
+            <br>
+            <a href="{{URL}}" style="text-decoration:none;">
+              <span class="brief-hl" style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:21px;line-height:29px;font-weight:700;color:#0f1419;letter-spacing:-0.2px;display:inline-block;padding-top:8px;">{{HEAD}}</span>
+            </a>
+            <span style="font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;line-height:23px;color:#3b4751;display:block;padding-top:8px;">{{BODY}}</span>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr><td class="mp" style="padding:20px 24px 0 24px;"><div style="height:1px;background-color:#d4d9de;font-size:0;line-height:0;">&nbsp;</div></td></tr>
+</table>
+{{/STORIES_1}}
+
+
+{{#AD3}}
+<!-- =============================================
+     AD 3 - TEXT AD WITH LOGO
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#fdf4ec;border-top:3px solid #0d2b45;border-bottom:1px solid #d4d9de;">
+  <tr>
+    <td class="mp" style="padding:9px 24px 0 24px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a949e;">Sponsored</td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:8px 24px 18px 24px;">
+      <a href="{{url}}" target="_blank" style="text-decoration:none;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tr>
+            <td width="170" valign="top" class="ad-logo-cell" style="width:170px;padding-right:18px;">
+              <img src="{{logo}}" width="170" height="170" alt="{{name}} logo" class="ad-logo" style="width:170px;height:170px;display:block;">
+            </td>
+            <td valign="top">
+              <span style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:21px;font-weight:700;color:#0f1419;line-height:29px;letter-spacing:-0.2px;display:block;">{{head}}</span>
+              <span style="font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#3b4751;line-height:23px;display:block;padding-top:8px;">{{body}}</span>
+              <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#f57c29;display:inline-block;padding-top:8px;">{{cta}}&#8250;</span>
+            </td>
+          </tr>
+        </table>
+      </a>
+    </td>
+  </tr>
+</table>
+{{/AD3}}
+
+
+{{#STORIES_2}}
+<!-- STORY -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#ffffff;">
+  <tr>
+    <td class="mp" style="padding:24px 24px 0 24px;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+{{#IMG}}
+          <td width="170" valign="top" class="thumb-cell" style="width:170px;padding-right:18px;">
+            <a href="{{URL}}" style="text-decoration:none;">
+              <img src="{{IMG}}" width="170" alt="{{ALT}}" class="thumb" style="width:170px;height:auto;display:block;">
+            </a>
+          </td>
+{{/IMG}}
+          <td valign="top" class="brief-body">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="left">
+              <tr><td style="background-color:#336178;padding:4px 9px 3px 9px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#ffffff;">{{CAT}}</td></tr>
+            </table>
+            <br>
+            <a href="{{URL}}" style="text-decoration:none;">
+              <span class="brief-hl" style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:21px;line-height:29px;font-weight:700;color:#0f1419;letter-spacing:-0.2px;display:inline-block;padding-top:8px;">{{HEAD}}</span>
+            </a>
+            <span style="font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;line-height:23px;color:#3b4751;display:block;padding-top:8px;">{{BODY}}</span>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr><td class="mp" style="padding:20px 24px 0 24px;"><div style="height:1px;background-color:#d4d9de;font-size:0;line-height:0;">&nbsp;</div></td></tr>
+</table>
+{{/STORIES_2}}
+
+
+{{#AD4}}
+<!-- =============================================
+     AD 4 - IN-CONTENT BANNER
+     650x80 desktop / 375x62 phone - the same slot as the top banner,
+     so one pair of files runs in either position.
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#fdf4ec;border-top:3px solid #0d2b45;border-bottom:1px solid #d4d9de;">
+  <tr>
+    <td style="padding:16px 0 26px 0;font-size:0;line-height:0;">
+      <a href="{{url}}" target="_blank" style="text-decoration:none;display:block;">
+        <img src="{{img_desktop}}" width="650" alt="{{alt}}"
+             class="fluid-img d-only" style="width:100%;max-width:650px;height:auto;display:block;">
+        <img src="{{img_desktop}}" width="375" alt="{{alt}}"
+             class="m-only" style="width:100%;max-width:375px;height:auto;">
+      </a>
+    </td>
+  </tr>
+</table>
+{{/AD4}}
+
+
+{{#HAS_PICKS}}
+<!-- =============================================
+     5. EDITOR'S PICKS
+     The black banner strip is the print issue-badge device.
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#0d2b45;">
+  <tr>
+    <td class="mp" style="padding:22px 24px 0 24px;text-align:center;">
+      <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:26px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#ffffff;">Editor&rsquo;s Picks</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:8px 24px 0 24px;text-align:center;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+        <tr><td style="width:120px;height:3px;background-color:#f57c29;font-size:0;line-height:0;">&nbsp;</td></tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:20px 24px 24px 24px;font-size:0;line-height:0;">
+      <!--[if mso]><table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td width="200" valign="top"><![endif]-->
+      {{#PICKS}}<div style="display:inline-block;width:100%;max-width:200px;vertical-align:top;" class="stack stack-pad">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tr><td style="padding:0 7px;">
+            <a href="{{URL}}" style="text-decoration:none;">
+              <img src="{{IMG}}" class="pick-img" width="186" alt="" style="width:100%;max-width:186px;height:auto;display:block;">
+              <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:#f9a86b;display:block;padding-top:10px;">{{CAT}}</span>
+              <span style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:16px;font-weight:700;color:#ffffff;line-height:23px;display:block;padding-top:5px;">{{HEAD}}</span>
+              <span style="font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:13px;color:#9fb9ce;line-height:20px;display:block;padding-top:6px;">{{BODY}}</span>
+            </a>
+          </td></tr>
+        </table>
+      </div>{{/PICKS}}
+      <!--[if mso]></td></tr></table><![endif]-->
+    </td>
+  </tr>
+</table>
+{{/HAS_PICKS}}
+
+
+{{#AD5}}
+<!-- =============================================
+     AD 5 - TEXT AD WITH LOGO
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#fdf4ec;border-top:3px solid #0d2b45;border-bottom:1px solid #d4d9de;">
+  <tr>
+    <td class="mp" style="padding:9px 24px 0 24px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a949e;">Sponsored</td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:8px 24px 18px 24px;">
+      <a href="{{url}}" target="_blank" style="text-decoration:none;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tr>
+            <td width="170" valign="top" class="ad-logo-cell" style="width:170px;padding-right:18px;">
+              <img src="{{logo}}" width="170" height="170" alt="{{name}} logo" class="ad-logo" style="width:170px;height:170px;display:block;">
+            </td>
+            <td valign="top">
+              <span style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:21px;font-weight:700;color:#0f1419;line-height:29px;letter-spacing:-0.2px;display:block;">{{head}}</span>
+              <span style="font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#3b4751;line-height:23px;display:block;padding-top:8px;">{{body}}</span>
+              <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#f57c29;display:inline-block;padding-top:8px;">{{cta}}&#8250;</span>
+            </td>
+          </tr>
+        </table>
+      </a>
+    </td>
+  </tr>
+</table>
+{{/AD5}}
+
+
+{{#STORIES_3}}
+<!-- STORY -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#ffffff;">
+  <tr>
+    <td class="mp" style="padding:22px 24px 0 24px;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="left">
+        <tr><td style="background-color:#336178;padding:4px 9px 3px 9px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#ffffff;">{{CAT}}</td></tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:12px 24px 0 24px;">
+      <a href="{{URL}}" style="text-decoration:none;">
+        <span class="brief-hl" style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:21px;line-height:29px;font-weight:700;color:#0f1419;letter-spacing:-0.2px;">{{HEAD}}</span>
+      </a>
+      <span style="font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;line-height:23px;color:#3b4751;display:block;padding-top:8px;">{{BODY}}</span>
+    </td>
+  </tr>
+  <tr><td class="mp" style="padding:20px 24px 0 24px;"><div style="height:1px;background-color:#d4d9de;font-size:0;line-height:0;">&nbsp;</div></td></tr>
+</table>
+{{/STORIES_3}}
+
+
+
+
+{{#AD6}}
+<!-- =============================================
+     AD 6 - TEXT AD WITH LOGO
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#fdf4ec;border-top:3px solid #0d2b45;border-bottom:1px solid #d4d9de;">
+  <tr>
+    <td class="mp" style="padding:9px 24px 0 24px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a949e;">Sponsored</td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:8px 24px 18px 24px;">
+      <a href="{{url}}" target="_blank" style="text-decoration:none;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tr>
+            <td width="170" valign="top" class="ad-logo-cell" style="width:170px;padding-right:18px;">
+              <img src="{{logo}}" width="170" height="170" alt="{{name}} logo" class="ad-logo" style="width:170px;height:170px;display:block;">
+            </td>
+            <td valign="top">
+              <span style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:21px;font-weight:700;color:#0f1419;line-height:29px;letter-spacing:-0.2px;display:block;">{{head}}</span>
+              <span style="font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#3b4751;line-height:23px;display:block;padding-top:8px;">{{body}}</span>
+              <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#f57c29;display:inline-block;padding-top:8px;">{{cta}}&#8250;</span>
+            </td>
+          </tr>
+        </table>
+      </a>
+    </td>
+  </tr>
+</table>
+{{/AD6}}
+{{#HAS_HEADLINES}}
+<!-- =============================================
+     6. MORE HEADLINES
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#f4f6f8;border-top:1px solid #d4d9de;">
+  <tr>
+    <td class="mp" style="padding:24px 24px 0 24px;">
+      <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:17px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#0f1419;border-bottom:3px solid #f57c29;padding-bottom:6px;">More headlines</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:18px 24px 0 24px;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">{{#HEADLINES}}{{#sep}}
+        <tr><td style="padding:12px 0 0 0;"><div style="height:1px;background-color:#dde2e7;font-size:0;line-height:0;">&nbsp;</div></td></tr>{{/sep}}
+        <tr>
+          <td style="padding:12px 0 0 0;">
+            <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#f57c29;display:block;padding-bottom:4px;">{{CAT}}</span>
+            <a href="{{URL}}" style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:16px;font-weight:700;color:#0f1419;line-height:24px;text-decoration:none;">{{HEAD}}</a>
+          </td>
+        </tr>{{/HEADLINES}}
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:18px 24px 26px 24px;">
+      <!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.autoremarketing.com/ar" style="height:42px;v-text-anchor:middle;width:602px;" arcsize="0%" strokecolor="#0d2b45" fillcolor="#0d2b45">
+        <w:anchorlock/><center style="color:#ffffff;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;letter-spacing:1.5px;">ALL OF TODAY'S NEWS</center>
+      </v:roundrect>
+      <![endif]-->
+      <!--[if !mso]><!-->
+      <a href="https://www.autoremarketing.com/ar" style="display:block;background-color:#0d2b45;color:#ffffff;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:14px;font-weight:600;line-height:42px;text-align:center;text-decoration:none;letter-spacing:2px;text-transform:uppercase;">All of today&rsquo;s news &#8250;</a>
+      <!--<![endif]-->
+    </td>
+  </tr>
+</table>
+{{/HAS_HEADLINES}}
+
+
+{{#AD7}}
+<!-- =============================================
+     AD 7 - TEXT AD WITH LOGO
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#fdf4ec;border-bottom:1px solid #d4d9de;">
+  <tr>
+    <td class="mp" style="padding:9px 24px 0 24px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a949e;">Sponsored</td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:8px 24px 18px 24px;">
+      <a href="{{url}}" target="_blank" style="text-decoration:none;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tr>
+            <td width="170" valign="top" class="ad-logo-cell" style="width:170px;padding-right:18px;">
+              <img src="{{logo}}" width="170" height="170" alt="{{name}} logo" class="ad-logo" style="width:170px;height:170px;display:block;">
+            </td>
+            <td valign="top">
+              <span style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:21px;font-weight:700;color:#0f1419;line-height:29px;letter-spacing:-0.2px;display:block;">{{head}}</span>
+              <span style="font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#3b4751;line-height:23px;display:block;padding-top:8px;">{{body}}</span>
+              <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#f57c29;display:inline-block;padding-top:8px;">{{cta}}&#8250;</span>
+            </td>
+          </tr>
+        </table>
+      </a>
+    </td>
+  </tr>
+</table>
+{{/AD7}}
+
+
+{{#PROMO}}
+<!-- =============================================
+     7. USED CAR WEEK PROMO (house)
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#194568;">
+  <!-- UCW logo sits on a white plate: the wordmark is mid-blue and drops out
+       against the navy panel. -->
+  <tr>
+    <td class="mp" style="padding:26px 24px 0 24px;text-align:center;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="background-color:#ffffff;">
+        <tr>
+          <td style="padding:14px 22px;text-align:center;">
+            <a href="{{url}}" target="_blank" style="text-decoration:none;">
+              <img src="{{logo}}" width="250" alt="Used Car Week 2026" style="width:250px;max-width:250px;height:auto;display:block;">
+            </a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:16px 24px 6px 24px;text-align:center;">
+      <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:#f57c29;">{{when}}</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:4px 24px 0 24px;text-align:center;">
+      <span style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:24px;font-weight:700;color:#ffffff;line-height:32px;display:block;">{{head}}</span>
+      <span style="font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#aecde6;line-height:23px;display:block;padding-top:10px;">{{body}}</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:20px 24px 24px 24px;text-align:center;">
+      <!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{url}}" style="height:42px;v-text-anchor:middle;width:230px;" arcsize="0%" strokecolor="#f57c29" fillcolor="#f57c29">
+        <w:anchorlock/><center style="color:#ffffff;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;letter-spacing:1.5px;">REGISTER FREE</center>
+      </v:roundrect>
+      <![endif]-->
+      <!--[if !mso]><!-->
+      <a href="{{url}}" style="display:inline-block;background-color:#f57c29;color:#ffffff;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:14px;font-weight:600;line-height:42px;text-align:center;text-decoration:none;padding:0 34px;letter-spacing:2px;text-transform:uppercase;">Register free &#8250;</a>
+      <!--<![endif]-->
+    </td>
+  </tr>
+</table>
+{{/PROMO}}
+
+
+<!-- =============================================
+     8. SHARE THIS NEWSLETTER
+     Sits between the house promo and the footer, the last thing a reader
+     passes on the way out. {{FORWARD_URL}} is the ESP's forward-to-a-friend
+     token; {{ISSUE_URL}} is the public web version of this edition.
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#f4f6f8;border-top:3px solid #0d2b45;">
+  <tr>
+    <td class="mp" style="padding:24px 24px 0 24px;text-align:center;">
+      <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:#f57c29;">Share this newsletter</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:10px 24px 0 24px;text-align:center;">
+      <span style="font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-size:21px;font-weight:700;color:#0f1419;line-height:29px;display:block;">Know someone in the used-car business who should be reading this?</span>
+      <span style="font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;line-height:23px;color:#3b4751;display:block;padding-top:8px;">Pass today&rsquo;s edition along, or send them to the sign-up page.</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:18px 24px 26px 24px;text-align:center;">
+      <!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{FORWARD_URL}}" style="height:42px;v-text-anchor:middle;width:250px;" arcsize="0%" strokecolor="#0d2b45" fillcolor="#0d2b45">
+        <w:anchorlock/><center style="color:#ffffff;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;letter-spacing:1.5px;">FORWARD THIS EDITION</center>
+      </v:roundrect>
+      <![endif]-->
+      <!--[if !mso]><!-->
+      <a href="{{FORWARD_URL}}" style="display:inline-block;background-color:#0d2b45;color:#ffffff;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:14px;font-weight:600;line-height:42px;text-align:center;text-decoration:none;padding:0 30px;letter-spacing:2px;text-transform:uppercase;">Forward this edition &#8250;</a>
+      <!--<![endif]-->
+    </td>
+  </tr>
+</table>
+
+
+<!-- =============================================
+     9. FOOTER
+     ============================================= -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#0d2b45;">
+  <tr>
+    <td class="mp" style="padding:24px 24px 0 24px;text-align:center;">
+      <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#ffffff;">Auto Remarketing</span>
+      <span style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#f57c29;">&nbsp;Today</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:14px 24px 0 24px;text-align:center;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+        <tr>
+          <td style="padding:0 7px;">
+            <a href="https://www.linkedin.com/company/auto-remarketing/" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" width="22" height="22" alt="LinkedIn" style="width:22px;height:22px;display:block;"></a>
+          </td>
+          <td style="padding:0 7px;">
+            <a href="https://www.facebook.com/AutoRemarketing" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png" width="22" height="22" alt="Facebook" style="width:22px;height:22px;display:block;"></a>
+          </td>
+          <td style="padding:0 7px;">
+            <a href="https://x.com/autoremarketing" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/twitterx.png" width="22" height="22" alt="X" style="width:22px;height:22px;display:block;"></a>
+          </td>
+          <td style="padding:0 7px;">
+            <a href="https://www.autoremarketing.com/podcast" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/podcast.png" width="22" height="22" alt="Podcast" style="width:22px;height:22px;display:block;"></a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:18px 24px 0 24px;text-align:center;font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:12px;line-height:22px;color:#8d99a5;">
+      <a href="https://www.autoremarketing.com/arcanada" style="color:#c3cdd7;text-decoration:none;">AR Canada</a>
+      <span style="color:#3d4852;">&nbsp;|&nbsp;</span>
+      <a href="https://www.autoremarketing.com/subprime" style="color:#c3cdd7;text-decoration:none;">SubPrime</a>
+      <span style="color:#3d4852;">&nbsp;|&nbsp;</span>
+      <a href="https://www.autoremarketing.com/bhph" style="color:#c3cdd7;text-decoration:none;">BHPH Report</a>
+      <span style="color:#3d4852;">&nbsp;|&nbsp;</span>
+      <a href="https://www.autoremarketing.com/autofinjournal" style="color:#c3cdd7;text-decoration:none;">Auto Fin Journal</a>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:4px 24px 0 24px;text-align:center;font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:12px;line-height:22px;color:#8d99a5;">
+      <a href="https://www.autoremarketing.com/podcast" style="color:#c3cdd7;text-decoration:none;">Podcasts</a>
+      <span style="color:#3d4852;">&nbsp;|&nbsp;</span>
+      <a href="https://www.autoremarketing.com/subscription-options" style="color:#c3cdd7;text-decoration:none;">CMG Premium</a>
+      <span style="color:#3d4852;">&nbsp;|&nbsp;</span>
+      <a href="https://digital.autoremarketing.com/" style="color:#c3cdd7;text-decoration:none;">Digital Magazine</a>
+      <span style="color:#3d4852;">&nbsp;|&nbsp;</span>
+      <a href="https://www.autoremarketing.com/subscribe" style="color:#f57c29;text-decoration:none;font-weight:700;">Subscribe</a>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:18px 24px 0 24px;"><div style="height:1px;background-color:#2a4a66;font-size:0;line-height:0;">&nbsp;</div></td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:16px 24px 0 24px;text-align:center;font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:11px;line-height:18px;color:#75818d;">
+      This email was sent to {{RECIPIENT_EMAIL}} from Auto Remarketing.<br>
+      <a href="https://www.autoremarketing.com/manage-subscriptions" style="color:#9aa6b2;text-decoration:underline;">Manage your e-newsletter subscriptions</a>
+      <span style="color:#3d4852;">&nbsp;|&nbsp;</span>
+      <a href="{{UNSUBSCRIBE_URL}}" style="color:#9aa6b2;text-decoration:underline;">Opt out</a>
+    </td>
+  </tr>
+  <tr>
+    <td class="mp" style="padding:12px 24px 24px 24px;text-align:center;font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:10px;line-height:17px;color:#5e6a76;">
+      701 Cascade Pointe Lane, Cary, NC 27513<br>
+      &copy; 2026 Cherokee Media Group. All rights reserved.
+    </td>
+  </tr>
+</table>
+
+
+<!--[if mso]></td></tr></table><![endif]-->
+</div>
+</center>
+</body>
+</html>
