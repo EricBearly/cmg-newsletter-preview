@@ -40,8 +40,9 @@ blocks either side closing up against each other. Nothing is left behind.
 A **banner** takes `url`, `img_desktop`, `img_mobile`, `alt`.
 A **text ad** takes `url`, `logo`, `name`, `head`, `body`, `cta`.
 
-Which slots exist differs per title — AM has 1–7, PM has 1–6, SubPrime has
-1, 2, 3, 5 and 6. Each block's HTML comment names its own slot.
+Which slots exist differs per title — AM has 1–7, PM and SubPrime have 1–6.
+Each block's HTML comment names its own slot. The numbers are field names, not
+reading order: in SubPrime, banner `AD4` sits between `AD2` and `AD3`.
 
 Creative sizes are in the rate sheet; the short version is 1300×160 supplied
 for the desktop banner, 750×124 for mobile, and a 340×340 logo or image for

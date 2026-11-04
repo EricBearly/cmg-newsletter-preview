@@ -18,6 +18,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
+<meta name="robots" content="noindex, nofollow">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -173,7 +174,9 @@
   <tr>
     <td style="padding:16px 0 0 0;font-size:0;line-height:0;">
       <a href="{{url}}" target="_blank" style="text-decoration:none;">
-        <img src="{{img_desktop}}" width="650" alt="{{alt}}" class="fluid-img" style="width:100%;max-width:650px;height:auto;display:block;">
+        <img src="{{img_desktop}}" width="650" alt="{{alt}}" class="fluid-img d-only" style="width:100%;max-width:650px;height:auto;display:block;">
+        <img src="{{img_mobile}}" width="375" alt="{{alt}}"
+             class="m-only" style="width:100%;max-width:375px;height:auto;">
       </a>
     </td>
   </tr>
@@ -300,8 +303,9 @@
 </table>
 {{/STORIES_1}}
 
+{{#AD4}}
 <!-- =============================================
-     AD 3b - IN-CONTENT BANNER
+     AD 4 - IN-CONTENT BANNER
      650x80 desktop / 375x62 phone - the same slot as the top banner,
      so one pair of files runs in either position.
      ============================================= -->
@@ -309,14 +313,15 @@
   <tr>
     <td style="padding:16px 0 26px 0;font-size:0;line-height:0;">
       <a href="{{AD3B_URL}}" target="_blank" style="text-decoration:none;display:block;">
-        <img src="img/house-ucw-650-sp.png" width="650" alt="Used Car Week 2026 - dealers attend free"
+        <img src="{{img_desktop}}" width="650" alt="{{alt}}"
              class="fluid-img d-only" style="width:100%;max-width:650px;height:auto;display:block;">
-        <img src="img/house-ucw-6x1-sp.png" width="375" alt="Used Car Week 2026 - dealers attend free"
+        <img src="{{img_mobile}}" width="375" alt="{{alt}}"
              class="m-only" style="width:100%;max-width:375px;height:auto;">
       </a>
     </td>
   </tr>
 </table>
+{{/AD4}}
 {{#HAS_PICKS}}
 <!-- =============================================
      5. EDITOR'S PICKS

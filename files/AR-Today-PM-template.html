@@ -18,6 +18,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
+<meta name="robots" content="noindex, nofollow">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -85,8 +86,8 @@
       .pick-img{width:100%!important;max-width:100%!important;height:auto!important}
       .brief-body{display:block!important;width:100%!important;max-width:100%!important}
       .flag-cell{text-align:left!important}
-      .flag-logo{width:44px!important;height:68px!important}
-      .flag-today{font-size:40px!important;line-height:40px!important;padding-top:0!important}
+      .flag-logo{width:52px!important;height:80px!important}
+      .flag-today{font-size:42px!important;line-height:42px!important;padding-top:0!important}
       .ad-logo-cell{width:104px!important;padding-right:14px!important}
       .ad-logo{width:104px!important;height:104px!important}
     }
@@ -129,16 +130,16 @@
 </table>
 <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#0d2b45;">
   <tr>
-    <td class="mp" style="padding:20px 24px 18px 24px;">
+    <td class="mp" style="padding:10px 24px 14px 24px;">
       <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
         <tr>
-          <td valign="bottom" width="60" style="width:60px;padding:0;">
+          <td valign="middle" width="71" style="width:71px;padding:0;">
             <a href="https://www.autoremarketing.com/" target="_blank">
-              <img src="logos/AR-lockup-white.png" width="60" height="92" alt="Auto Remarketing" class="flag-logo" style="width:60px;height:92px;display:block;border:0;">
+              <img src="logos/AR-lockup-white.png" width="71" height="110" alt="Auto Remarketing" class="flag-logo" style="width:71px;height:110px;display:block;border:0;">
             </a>
           </td>
-          <td valign="bottom" class="flag-cell" style="padding:0 0 0 18px;text-align:left;">
-            <span class="flag-today" style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:54px;line-height:54px;font-weight:700;color:#f57c29;letter-spacing:-0.5px;display:block;">Today<span style="font-size:0.52em;letter-spacing:1px;">&nbsp;pm</span></span>
+          <td valign="middle" class="flag-cell" style="padding:0 0 0 10px;text-align:left;">
+            <span class="flag-today" style="font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:56px;line-height:56px;font-weight:700;color:#f57c29;letter-spacing:-0.5px;display:block;">Today<span style="font-size:0.52em;letter-spacing:1px;">&nbsp;pm</span></span>
           </td>
         </tr>
       </table>
@@ -173,7 +174,7 @@
     <td style="padding:16px 0 0 0;font-size:0;line-height:0;">
       <a href="{{url}}" target="_blank" style="text-decoration:none;">
         <img src="{{img_desktop}}" width="650" alt="{{alt}}" class="fluid-img d-only" style="width:100%;max-width:650px;height:auto;display:block;">
-        <img src="{{img_desktop}}" width="375" alt="{{alt}}"
+        <img src="{{img_mobile}}" width="375" alt="{{alt}}"
              class="m-only" style="width:100%;max-width:375px;height:auto;">
       </a>
     </td>
@@ -265,7 +266,7 @@
     <td class="mp" style="padding:24px 24px 0 24px;">
       <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="left">
         <tr>
-          <td style="background-color:#336178;padding:5px 10px 4px 10px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:#ffffff;">Retail</td>
+          <td style="background-color:#336178;padding:5px 10px 4px 10px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:#ffffff;">{{CAT}}</td>
         </tr>
       </table>
     </td>
@@ -277,16 +278,18 @@
       </a>
     </td>
   </tr>
+{{#IMG}}
   <tr>
     <td class="mp" style="padding:14px 24px 0 24px;">
       <a href="{{URL}}" style="text-decoration:none;">
-        <img src="img/pm-nada-chair.jpg" width="602" alt="A row of used vehicles parked on a wholesale lot" class="fluid-img" style="width:100%;max-width:602px;height:auto;display:block;">
+        <img src="{{IMG}}" width="602" alt="{{ALT}}" class="fluid-img" style="width:100%;max-width:602px;height:auto;display:block;">
       </a>
     </td>
   </tr>
+{{/IMG}}
   <tr>
     <td class="mp" style="padding:16px 24px 0 24px;font-family:'Open Sans','Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:26px;color:#2b3640;">
-      Sandy Fitzgerald Angello, a dealer operator at Pohanka Automotive Group in Maryland, was elected by the board to become chair of the National Automobile Dealers Association. She will be the second woman to hold the role and the first in nearly two decades.
+      {{BODY}}
     </td>
   </tr>
   <tr>
@@ -308,7 +311,7 @@
       <a href="{{url}}" target="_blank" style="text-decoration:none;display:block;">
         <img src="{{img_desktop}}" width="650" alt="{{alt}}"
              class="fluid-img d-only" style="width:100%;max-width:650px;height:auto;display:block;">
-        <img src="{{img_desktop}}" width="375" alt="{{alt}}"
+        <img src="{{img_mobile}}" width="375" alt="{{alt}}"
              class="m-only" style="width:100%;max-width:375px;height:auto;">
       </a>
     </td>
