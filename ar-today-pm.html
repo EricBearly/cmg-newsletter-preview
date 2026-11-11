@@ -22,12 +22,13 @@
        AUTO REMARKETING TODAY
        DARK MASTHEAD. The plate behind the flag is dark and the mark is the
        reversed white one, so the top of the email is one solid colour. The
-       flag is the stacked AR lockup from the print magazine with Today set
-       against it, bottom-aligned on the wordmark's baseline.
-       Today is an image, not live type, because Gmail and desktop Outlook will
-       not load Oswald. Its alt text carries the word when images are off.
-       NOTE: logos/AR-lockup-white.png and logos/today-pm-orange.png must be hosted
-       on autoremarketing.com and their srcs swapped to those URLs before a send.
+       flag is ONE image: the full Auto Remarketing wordmark with Today in
+       orange right beside it on the same baseline (CMG, 2026-11-09: full
+       title, not initials; bigger, bolder, no gap across the page). It fills
+       the content width and scales down on phones. Its alt text carries the
+       title when images are off.
+       NOTE: logos/AR-Today-PM-masthead.png must be hosted on autoremarketing.com
+       and its src swapped to that URL before a send.
        THEME: BLUE. Every chrome surface - bar, flag rule, section chips,
        Editor's Picks, buttons, promo and footer - sits in one navy family.
        Orange appears only as an accent: kickers, CTAs and the Picks rule.
@@ -70,10 +71,7 @@
       .thumb{width:100%!important;max-width:100%!important;height:auto!important}
       .pick-img{width:100%!important;max-width:100%!important;height:auto!important}
       .brief-body{display:block!important;width:100%!important;max-width:100%!important}
-      .flag-cell{text-align:left!important}
-      .flag-logo-cell{width:52px!important}
-      .flag-logo{width:52px!important;height:80px!important}
-      .flag-today{width:auto!important;height:57px!important}
+      .flag-lockup{width:100%!important;height:auto!important}
       .ad-logo-cell{width:104px!important;padding-right:14px!important}
       .ad-logo{width:104px!important;height:104px!important}
     }
@@ -116,19 +114,8 @@
 </table>
 <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#0d2b45;">
   <tr>
-    <td class="mp" style="padding:10px 24px 14px 24px;">
-      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-        <tr>
-          <td valign="middle" width="71" class="flag-logo-cell" style="width:71px;padding:0;">
-            <a href="https://www.autoremarketing.com/" target="_blank">
-              <img src="logos/AR-lockup-white.png" width="71" height="110" alt="Auto Remarketing" class="flag-logo" style="width:71px;height:110px;display:block;border:0;">
-            </a>
-          </td>
-          <td valign="middle" class="flag-cell" style="padding:0 0 0 10px;text-align:left;">
-            <img src="logos/today-pm-orange.png" width="171" height="76" alt="Today PM" class="flag-today" style="width:171px;height:76px;display:block;border:0;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:40px;line-height:56px;font-weight:700;color:#f57c29;">
-          </td>
-        </tr>
-      </table>
+    <td class="mp" style="padding:18px 24px 18px 24px;">
+      <a href="https://www.autoremarketing.com/" target="_blank"><img src="logos/AR-Today-PM-masthead.png" width="601" height="93" alt="Auto Remarketing Today PM" class="flag-lockup" style="width:100%;max-width:601px;height:auto;display:block;border:0;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:30px;line-height:40px;font-weight:700;color:#ffffff;"></a>
     </td>
   </tr>
 </table>

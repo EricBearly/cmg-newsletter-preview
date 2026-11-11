@@ -149,7 +149,7 @@ const GROUPS = [
   ["Previous masthead — for comparison", [
     ["theme-blue-darkflag-before.html", "AR-Today-AM-previous.pdf",
      "AR Today AM — previous masthead",
-     "The version that was live before today: horizontal wordmark left, Today on the right edge.",
+     "The original masthead: horizontal wordmark on the left, Today on the far right edge.",
      "3.5 MB", "html", "pdf-previous/AR-Today-AM-previous.pdf"],
     ["ar-today-pm-before.html", "AR-Today-PM-previous.pdf",
      "AR Today PM — previous masthead",
@@ -165,7 +165,7 @@ const GROUPS = [
   ["For the developer — source HTML", [
     ["files/cmg-newsletter-kit.zip", "cmg-newsletter-kit.zip",
      "Developer kit for Claude",
-     "Everything below plus the build tools, a Claude skill, design rules, ad specs and lessons learned. Unzip and open in Claude Code.", "5.7 MB", "file"],
+     "Everything below plus the build tools, a Claude skill, design rules, ad specs and lessons learned. Unzip and open in Claude Code.", "5.9 MB", "file"],
     ["files/wordpress-builder-notes.md", "wordpress-builder-notes.md",
      "WordPress builder notes",
      "How an optional builder would work: copy entry, ad toggles, stored composed emails, and sending left open. Notes only; nothing is built.", "", "file"],
@@ -220,6 +220,8 @@ for (const [heading, items] of GROUPS) {
   h.textContent = heading;
   list.appendChild(h);
   for (const [url, filename, title, desc, size, kind, dlurl] of items) {
+    // the artifact host cannot serve archives, so the kit is listed only on the public site
+    if (filename.endsWith(".zip") && typeof claude !== "undefined") continue;
     // what View opens and what Download hands over are different files for the
     // live rows: the email itself on screen, the PDF deck on disk
     const fileUrl = dlurl || url;
