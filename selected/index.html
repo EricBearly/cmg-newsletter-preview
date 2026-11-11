@@ -169,7 +169,7 @@ const GROUPS = [
     ["files/cmg-newsletter-kit.zip", "cmg-newsletter-kit.zip",
      "Developer kit for Claude",
      "Everything above plus the build tools, a Claude skill, design rules, ad specs and lessons learned. Unzip and open in Claude Code.",
-     "5.9 MB", "file"],
+     "6.0 MB", "file"],
   ]],
 ];
 
@@ -200,6 +200,8 @@ for (const [heading, items] of GROUPS) {
   h.textContent = heading;
   list.appendChild(h);
   for (const [url, filename, title, desc, size, kind, dlurl] of items) {
+    // the artifact host cannot serve archives, so the kit is listed only on the public site
+    if (filename.endsWith(".zip") && typeof claude !== "undefined") continue;
     // what View opens and what Download hands over are different files for the
     // live rows: the email itself on screen, the PDF deck on disk
     const fileUrl = dlurl || url;
