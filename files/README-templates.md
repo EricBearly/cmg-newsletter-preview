@@ -51,6 +51,17 @@ blocks either side closing up against each other. Nothing is left behind.
 A **banner** takes `url`, `img_desktop`, `img_mobile`, `alt`.
 A **text ad** takes `url`, `logo`, `name`, `head`, `body`, `cta`.
 
+How a banner switches: both images sit inside the one link. A media query
+(`max-width:649px`) hides `img_desktop` and shows `img_mobile` on phones.
+The mobile image is also hidden inline, so an app that strips the `<head>`
+styles (the Gmail app on a non-Google account, for one) shows only the
+desktop file. Outlook on Windows ignores media queries and keeps the desktop
+file too.
+
+`img_mobile` is optional. Leave it out (or pass an empty string) and the
+mobile image is not written at all, and the desktop file shows at every width,
+scaled to fit. Nothing breaks if an advertiser supplies only one file.
+
 Which slots exist differs per title — AM has 1–7, PM and SubPrime have 1–6.
 Each block's HTML comment names its own slot. The numbers are field names, not
 reading order: in SubPrime, banner `AD4` sits between `AD2` and `AD3`.

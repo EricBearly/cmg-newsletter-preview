@@ -15,7 +15,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Noto+Serif:ital,wght@0,600;0,700;1,400;1,600&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style type="text/css">
     /* Separate creative per breakpoint. Outlook ignores media queries and
-       keeps the desktop file, which is the correct fall-back. */
+       keeps the desktop file, which is the correct fall-back. The mobile
+       image is also hidden inline, so an app that strips this style block
+       shows only the desktop file instead of both. */
     .m-only{display:none!important;max-height:0!important;overflow:hidden!important;mso-hide:all;}
 
     /* ---------------------------------------------------------------
@@ -147,7 +149,7 @@
       <a href="{{AD1_URL}}" target="_blank" style="text-decoration:none;">
         <img src="img/leaderboard-189881.png" width="650" alt="Advertisement" class="fluid-img d-only" style="width:100%;max-width:650px;height:auto;display:block;">
         <img src="img/leaderboard-189881-mobile.png" width="375" alt="Advertisement"
-             class="m-only" style="width:100%;max-width:375px;height:auto;">
+             class="m-only" style="display:none;max-height:0;overflow:hidden;mso-hide:all;width:100%;max-width:375px;height:auto;">
       </a>
     </td>
   </tr>
@@ -276,7 +278,7 @@
         <img src="img/house-ucw-650-ar.png" width="650" alt="Used Car Week 2026 - dealers attend free"
              class="fluid-img d-only" style="width:100%;max-width:650px;height:auto;display:block;">
         <img src="img/house-ucw-6x1-ar.png" width="375" alt="Used Car Week 2026 - dealers attend free"
-             class="m-only" style="width:100%;max-width:375px;height:auto;">
+             class="m-only" style="display:none;max-height:0;overflow:hidden;mso-hide:all;width:100%;max-width:375px;height:auto;">
       </a>
     </td>
   </tr>
